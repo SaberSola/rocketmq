@@ -525,10 +525,10 @@ public class MappedFile extends ReferenceResource {
     public void setCommittedPosition(int pos) {
         this.committedPosition.set(pos);
     }
-
+    //MappedFile 预热
     public void warmMappedFile(FlushDiskType type, int pages) {
         long beginTime = System.currentTimeMillis();
-        ByteBuffer byteBuffer = this.mappedByteBuffer.slice();
+        ByteBuffer byteBuffer = this.mappedByteBuffer.slice(); //共享内存
         int flush = 0;
         long time = System.currentTimeMillis();
         for (int i = 0, j = 0; i < this.fileSize; i += MappedFile.OS_PAGE_SIZE, j++) {

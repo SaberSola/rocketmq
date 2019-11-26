@@ -652,7 +652,7 @@ public class CommitLog {
         handleDiskFlush(result, putMessageResult, msg);//刷盘
 
 
-        /****************HA只是***********************/
+        /****************HA高可用主从复制***********************/
         handleHA(result, putMessageResult, msg); //ha机制
 
         return putMessageResult;
@@ -685,9 +685,9 @@ public class CommitLog {
         // Asynchronous flush
         else { //异步刷盘
             if (!this.defaultMessageStore.getMessageStoreConfig().isTransientStorePoolEnable()) {//是否开启TransientStorePool机制
-                flushCommitLogService.wakeup();//开启isTransientStorePoolEnable的话 直接落盘 不需要提交到commitLog
+                flushCommitLogService.wakeup();
             } else {
-                commitLogService.wakeup();
+                commitLogService.wakeup();//开启了isTransientStorePoolEnable
             }
         }
     }
@@ -991,7 +991,7 @@ public class CommitLog {
         }
     }
 
-    //每500ms 将MappedByteBuffer追加到磁盘当中 刷盘线程工作机制
+    //每500ms 将MappedByteBuffer追加到磁盘当中 刷盘线程工作机制 未开启TtansactionStorepoll
     class FlushRealTimeService extends FlushCommitLogService {//刷盘线程
         private long lastFlushTimestamp = 0;
         private long printTimes = 0;
@@ -1032,7 +1032,7 @@ public class CommitLog {
                     }
 
                     long begin = System.currentTimeMillis();
-                    CommitLog.this.mappedFileQueue.flush(flushPhysicQueueLeastPages); //
+                    CommitLog.this.mappedFileQueue.flush(flushPhysicQueueLeastPages); //mappedFileQueue直接刷到FileChannel
                     long storeTimestamp = CommitLog.this.mappedFileQueue.getStoreTimestamp();
                     if (storeTimestamp > 0) {
                         CommitLog.this.defaultMessageStore.getStoreCheckpoint().setPhysicMsgTimestamp(storeTimestamp);
