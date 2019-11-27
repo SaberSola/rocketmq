@@ -156,7 +156,7 @@ public class AdminBrokerProcessor implements NettyRequestProcessor {
                 return this.getEarliestMsgStoretime(ctx, request);
             case RequestCode.GET_BROKER_RUNTIME_INFO:
                 return this.getBrokerRuntimeInfo(ctx, request);
-            case RequestCode.LOCK_BATCH_MQ:
+            case RequestCode.LOCK_BATCH_MQ://锁定mq
                 return this.lockBatchMQ(ctx, request);
             case RequestCode.UNLOCK_BATCH_MQ:
                 return this.unlockBatchMQ(ctx, request);

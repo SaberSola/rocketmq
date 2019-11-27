@@ -114,6 +114,14 @@ public class RebalanceLockManager {
         return false;
     }
 
+
+    /**
+     *
+     * @param group
+     * @param mqs
+     * @param clientId
+     * @return
+     */
     public Set<MessageQueue> tryLockBatch(final String group, final Set<MessageQueue> mqs,
         final String clientId) {
         Set<MessageQueue> lockedMqs = new HashSet<MessageQueue>(mqs.size());
