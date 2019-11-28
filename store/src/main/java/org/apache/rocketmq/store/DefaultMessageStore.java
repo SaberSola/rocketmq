@@ -548,7 +548,7 @@ public class DefaultMessageStore implements MessageStore {
                             }
 
 
-                            //判断消息锅炉
+                            //处理消息过滤
                             if (messageFilter != null
                                 && !messageFilter.isMatchedByConsumeQueue(isTagsCodeLegal ? tagsCode : null, extRet ? cqExtUnit : null)) {
                                 if (getResult.getBufferTotalSize() == 0) {

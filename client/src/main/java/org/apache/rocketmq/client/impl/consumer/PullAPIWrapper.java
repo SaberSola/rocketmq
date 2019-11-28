@@ -184,9 +184,7 @@ public class PullAPIWrapper {
         final PullCallback pullCallback // 消息拉起后的回调函数
     ) throws MQClientException, RemotingException, MQBrokerException, InterruptedException {
         //根据messagequeue找到对应的topic 在找到topic分布的broker
-        FindBrokerResult findBrokerResult =
-            this.mQClientFactory.findBrokerAddressInSubscribe(mq.getBrokerName(),  //找到 broker
-                this.recalculatePullFromWhichNode(mq), false);
+        FindBrokerResult findBrokerResult = this.mQClientFactory.findBrokerAddressInSubscribe(mq.getBrokerName(),this.recalculatePullFromWhichNode(mq), false);
         if (null == findBrokerResult) {  //没有摘到broker 的话
             //触发一次远程更新TopicRoute
             this.mQClientFactory.updateTopicRouteInfoFromNameServer(mq.getTopic());
