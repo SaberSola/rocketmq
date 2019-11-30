@@ -91,7 +91,8 @@ public class MQAdminStartup {
         initCommand();
 
         try {
-            initLogback();
+            //initLogback();
+
             switch (args.length) {
                 case 0:
                     printHelp();
