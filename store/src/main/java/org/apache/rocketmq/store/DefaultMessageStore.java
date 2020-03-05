@@ -502,6 +502,7 @@ public class DefaultMessageStore implements MessageStore {
                     nextBeginOffset = nextOffsetCorrection(offset, maxOffset); //设置下次拉取为maxOffset；
                 }
             } else { // 上述必须校对 否则容易出现消息堆积
+
                 SelectMappedBufferResult bufferConsumeQueue = consumeQueue.getIndexBuffer(offset); //根据offset 偏移量 过去 MappedBuffer 内存映射文件
                 if (bufferConsumeQueue != null) { // 成功拉去到消息
                     try {
