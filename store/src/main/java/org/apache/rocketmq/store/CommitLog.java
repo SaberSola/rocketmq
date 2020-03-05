@@ -965,6 +965,7 @@ public class CommitLog {
                 }
 
                 try {
+                    //
                     boolean result = CommitLog.this.mappedFileQueue.commit(commitDataLeastPages);//提交到MappedByteBuffer
                     long end = System.currentTimeMillis();
                     if (!result) { //false 代表提交了部分数据
@@ -1032,7 +1033,9 @@ public class CommitLog {
                     }
 
                     long begin = System.currentTimeMillis();
+                    //
                     CommitLog.this.mappedFileQueue.flush(flushPhysicQueueLeastPages); //mappedFileQueue直接刷到FileChannel
+
                     long storeTimestamp = CommitLog.this.mappedFileQueue.getStoreTimestamp();
                     if (storeTimestamp > 0) {
                         CommitLog.this.defaultMessageStore.getStoreCheckpoint().setPhysicMsgTimestamp(storeTimestamp);
