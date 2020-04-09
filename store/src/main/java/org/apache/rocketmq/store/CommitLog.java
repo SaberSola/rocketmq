@@ -582,7 +582,7 @@ public class CommitLog {
         putMessageLock.lock(); //spin or ReentrantLock ,depending on store config //申请锁
         try {
             long beginLockTimestamp = this.defaultMessageStore.getSystemClock().now(); //获取锁的时间
-            this.beginTimeInLock = beginLockTimestamp;//获取锁的时间
+            this. beginTimeInLock = beginLockTimestamp;//获取锁的时间
 
             // Here settings are stored timestamp, in order to ensure an orderly
             // global
@@ -685,9 +685,9 @@ public class CommitLog {
         // Asynchronous flush
         else { //异步刷盘
             if (!this.defaultMessageStore.getMessageStoreConfig().isTransientStorePoolEnable()) {//是否开启TransientStorePool机制
-                flushCommitLogService.wakeup();
+                flushCommitLogService.wakeup(); //FlushRealTimeService
             } else {
-                commitLogService.wakeup();//开启了isTransientStorePoolEnable
+                commitLogService.wakeup();//开启了isTransientStorePoolEnable  //CommitRealTimeService
             }
         }
     }

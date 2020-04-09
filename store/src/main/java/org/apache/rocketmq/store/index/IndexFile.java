@@ -109,6 +109,7 @@ public class IndexFile {
             int keyHash = indexKeyHashMethod(key); //根据key计算key的hashcode
             int slotPos = keyHash % this.hashSlotNum; //定位到hash槽的下标
             // hashcode对应的hash槽的物理地址 = 头部 + hash槽的下边 * hashSlotSize 每个hash槽的大小
+            //hash槽的指针所在的偏移量
             int absSlotPos = IndexHeader.INDEX_HEADER_SIZE + slotPos * hashSlotSize; //定位到hash槽的指针
 
             FileLock fileLock = null;
@@ -224,9 +225,9 @@ public class IndexFile {
     public void selectPhyOffset(final List<Long> phyOffsets, final String key, final int maxNum,
         final long begin, final long end, boolean lock) {
         if (this.mappedFile.hold()) {
-            int keyHash = indexKeyHashMethod(key);
-            int slotPos = keyHash % this.hashSlotNum;
-            int absSlotPos = IndexHeader.INDEX_HEADER_SIZE + slotPos * hashSlotSize;
+            int keyHash = indexKeyHashMethod(key);//计算key的hash值
+            int slotPos = keyHash % this.hashSlotNum; //找到hash槽的下标
+            int absSlotPos = IndexHeader.INDEX_HEADER_SIZE + slotPos * hashSlotSize;//计算当前下标所在的偏移量
 
             FileLock fileLock = null;
             try {
@@ -235,7 +236,7 @@ public class IndexFile {
                     // hashSlotSize, true);
                 }
 
-                int slotValue = this.mappedByteBuffer.getInt(absSlotPos);
+                int slotValue = this.mappedByteBuffer.getInt(absSlotPos);//获取槽所咋的值
                 // if (fileLock != null) {
                 // fileLock.release();
                 // fileLock = null;

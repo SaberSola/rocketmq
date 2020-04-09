@@ -94,7 +94,7 @@ public class MQClientInstance {
     private final long bootTimestamp = System.currentTimeMillis();//client创建时间
     private final ConcurrentMap<String/* group */, MQProducerInner> producerTable = new ConcurrentHashMap<String, MQProducerInner>();  //使用当前MQClientInstance 的生产者
     private final ConcurrentMap<String/* group */, MQConsumerInner> consumerTable = new ConcurrentHashMap<String, MQConsumerInner>();  //消费者
-    private final ConcurrentMap<String/* group */, MQAdminExtInner> adminExtTable = new ConcurrentHashMap<String, MQAdminExtInner>();                        // 管理职
+    private final ConcurrentMap<String/* group */, MQAdminExtInner> adminExtTable = new ConcurrentHashMap<String, MQAdminExtInner>();  // 管理职
     private final NettyClientConfig nettyClientConfig;//netty客户端配置中心
     private final MQClientAPIImpl mQClientAPIImpl;    // 发送消息具体的api诶
     private final MQAdminImpl mQAdminImpl;
@@ -534,7 +534,7 @@ public class MQClientInstance {
             return;
         }
 
-        if (!this.brokerAddrTable.isEmpty()) {
+        if (!this.brokerAddrTable.isEmpty()) {//broker 不为空
             long times = this.sendHeartbeatTimesTotal.getAndIncrement();
             Iterator<Entry<String, HashMap<Long, String>>> it = this.brokerAddrTable.entrySet().iterator();
             while (it.hasNext()) {
@@ -558,6 +558,7 @@ public class MQClientInstance {
                                 }
                                 this.brokerVersionTable.get(brokerName).put(addr, version);
                                 if (times % 20 == 0) {
+                                    //打一
                                     log.info("send heart beat to broker[{} {} {}] success", brokerName, id, addr);
                                     log.info(heartbeatData.toString());
                                 }
@@ -717,7 +718,7 @@ public class MQClientInstance {
                 consumerData.setConsumeType(impl.consumeType()); //消费类型
                 consumerData.setMessageModel(impl.messageModel()); //广播还是集群
                 consumerData.setConsumeFromWhere(impl.consumeFromWhere());
-                consumerData.getSubscriptionDataSet().addAll(impl.subscriptions()); //获取该group下的订阅者关系
+                consumerData.getSubscriptionDataSet().addAll(impl.subscriptions()); //获取该group下的订阅者关系  topic列表一寄给
                 consumerData.setUnitMode(impl.isUnitMode());
 
                 heartbeatData.getConsumerDataSet().add(consumerData);
